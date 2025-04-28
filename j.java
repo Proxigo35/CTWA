@@ -92,30 +92,40 @@ public class j {
 	public static void quickSort(int[] array, int startIndex, int endIndex) {
 		//if (startIndex == endIndex - 1 && array[startIndex] < array[endIndex]) return;
 		//if (startIndex == endIndex) return;
+		//if (startIndex >= endIndex) return;
 		
 		int temp;
 		int i = startIndex;
 		int j = endIndex;
 		int pivot = array[startIndex];
 		
-		//System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
-		//System.out.println(i + ", " + j);
+		System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
+		System.out.println(i + ", " + j);
 		
-		while (i < j) {
+		while (true) {
+			do {
+				i++;
+			}
+			while (array[i] < pivot);
 			
-			while (array[i] < pivot) i++;
-			while (array[j] >= pivot && j > i) j--;
+			do {
+				j--;
+			}
+			while (array[j] >= pivot && j > 0);
+			if (i >= j) break;
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
 		}
 		
-		//System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
-		//System.out.println(i + ", " + j);
+		System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
+		System.out.println(i + ", " + j);
 		//System.out.println('\n');
 		
+		System.out.println(startIndex + ", " + j);
+		
 		if (startIndex < j) {
-			quickSort(array, startIndex, j - 1);
+			quickSort(array, startIndex, j);
 			quickSort(array, j, endIndex);
 		}
 	}
@@ -149,7 +159,7 @@ public class j {
 	
 	public static void main(String[] args) {		
 		int[] sampleSize = {10};//, 250, 500, 750, 1000, 1250, 2500, 3750, 5000, 6250, 7500, 8750, 10000};
-		int numRuns = 100;
+		int numRuns = 1;
 		int[] array;
 		
 		String sizeOutput = "Size\t";
@@ -170,8 +180,9 @@ public class j {
 			long countingSortTime = 0;
 			
 			for (int i = 0; i < numRuns; i++) {
-				array = randomArray(n);
-				//array = new int[] {4, 1, 7, 10, 9, 3, 2, 6, 8, 5};
+				//array = randomArray(n);
+				//array = new int[] {8, 3, 5, 9, 6, 7, 1, 10, 2, 4};
+				array = new int[] {1, 3, 2};
 				//bubbleSortTime += bubbleSort(Arrays.copyOf(array, array.length));
 				//selectionSortTime += selectionSort(Arrays.copyOf(array, array.length));
 				//insertionSortTime += insertionSort(Arrays.copyOf(array, array.length));
