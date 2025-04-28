@@ -93,6 +93,20 @@ public class j {
 	
 	public static long countingSort(int[] array) {
 		long startTime = System.nanoTime();
+		int[] counts =  new int[array.length + 1];
+		int index = 0;
+
+		for (int i : array) {
+			counts[i]++;
+		}
+		
+		for (int i = 0; i < counts.length; i++) {
+			for (int j = index; j < i; j++) {
+				array[j] = i;
+				index++;
+			}
+		}
+		
 		return System.nanoTime() - startTime;
 	}
 	
@@ -110,11 +124,15 @@ public class j {
 		String bubbleSortOutput = "Bubble sort\t";
 		String selectionSortOutput = "Selection sort\t";
 		String insertionSortOutput = "Insertion sort\t";
+		String quickSortOutput = "Quick sort\t";
+		String countingSortOutput = "Counting sort\t";
 		
 		for (int n : sampleSize) {
 			long bubbleSortTime = 0;
 			long selectionSortTime = 0;
 			long insertionSortTime = 0;
+			long quickSortTime = 0;
+			long countingSortTime = 0;
 			
 			for (int i = 0; i < numRuns; i++) {
 				
@@ -122,15 +140,21 @@ public class j {
 				bubbleSortTime += bubbleSort(Arrays.copyOf(array, array.length));
 				selectionSortTime += selectionSort(Arrays.copyOf(array, array.length));
 				insertionSortTime += insertionSort(Arrays.copyOf(array, array.length));
+				quickSortTime += quickSort(Arrays.copyOf(array, array.length));
+				countingSortTime += countingSort(Arrays.copyOf(array, array.length));
 			}
 			bubbleSortOutput += String.format("%.3f\t", bubbleSortTime / (1000000.0d * numRuns));
 			selectionSortOutput += String.format("%.3f\t", selectionSortTime / (1000000.0d * numRuns));
 			insertionSortOutput += String.format("%.3f\t", insertionSortTime / (1000000.0d * numRuns));
+			quickSortOutput += String.format("%.3f\t", quickSortTime / (1000000.0d * numRuns));
+			countingSortOutput += String.format("%.3f\t", countingSortTime / (1000000.0d * numRuns));
 			
 		}
 		System.out.println(sizeOutput);
 		System.out.println(bubbleSortOutput);
 		System.out.println(selectionSortOutput);
 		System.out.println(insertionSortOutput);
+		System.out.println(quickSortOutput);
+		System.out.println(countingSortOutput);
 	}
 }
