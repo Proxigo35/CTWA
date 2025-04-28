@@ -1,6 +1,5 @@
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
-//Test comment
 
 public class j {
 	
@@ -118,19 +117,11 @@ public class j {
 			long insertionSortTime = 0;
 			
 			for (int i = 0; i < numRuns; i++) {
+				
 				array = randomArray(n);
-				int[] copyOfArray = new int[array.length];
-				
-				for (int j = 0; j < copyOfArray.length; j++) {
-					copyOfArray[j] = array[j];
-				}
-				
-				bubbleSortTime += bubbleSort(array);
-				array = copyOfArray;
-				selectionSortTime += selectionSort(array);
-				array = copyOfArray;
-				insertionSortTime += insertionSort(array);
-				array = copyOfArray;
+				bubbleSortTime += bubbleSort(Arrays.copyOf(array, array.length));
+				selectionSortTime += selectionSort(Arrays.copyOf(array, array.length));
+				insertionSortTime += insertionSort(Arrays.copyOf(array, array.length));
 			}
 			bubbleSortOutput += String.format("%.3f\t", bubbleSortTime / (1000000.0d * numRuns));
 			selectionSortOutput += String.format("%.3f\t", selectionSortTime / (1000000.0d * numRuns));
@@ -141,41 +132,5 @@ public class j {
 		System.out.println(bubbleSortOutput);
 		System.out.println(selectionSortOutput);
 		System.out.println(insertionSortOutput);
-		
-		
-		// for (int n : sampleSize) {
-			// totalTime = 0;
-			// for (int i = 0; i < numRuns; i++) {
-				// array = randomArray(n);
-				// startTime = System.nanoTime();
-				// bubbleSort(array);
-				// totalTime += System.nanoTime() - startTime;
-			// }
-			// System.out.printf("%.3f\t", totalTime / (1000000.0d * numRuns));
-		// }
-		
-		// System.out.print("\nSelection sort\t");
-		// for (int n : sampleSize) {
-			// totalTime = 0;
-			// for (int i = 0; i < numRuns; i++) {
-				// array = randomArray(n);
-				// startTime = System.nanoTime();
-				// selectionSort(array);			
-				// totalTime += System.nanoTime() - startTime;
-			// }
-			// System.out.printf("%.3f\t", totalTime / (1000000.0d * numRuns));
-		// }
-		
-		// System.out.print("\nInsertion sort\t");
-		// for (int n : sampleSize) {
-			// totalTime = 0;
-			// for (int i = 0; i < numRuns; i++) {
-				// array = randomArray(n);
-				// startTime = System.nanoTime();
-				// insertionSort(array);
-				// totalTime += System.nanoTime() - startTime;
-			// }
-			// System.out.printf("%.3f\t", totalTime / (1000000.0d * numRuns));
-		// }
 	}
 }
