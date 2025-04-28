@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class j {
 	
 	public static int[] randomArray(int n) {
+		// change from being 1 - n, to any index being any valid int value
 		int[] array = new int[n];
 		int temp;
 		int randomIndex;
@@ -88,12 +89,35 @@ public class j {
 		return System.nanoTime() - startTime;
 	}
 	
-	public static long quickSort(int[] array) {
-		long startTime = System.nanoTime();
+	public static void quickSort(int[] array, int startIndex, int endIndex) {
+		//if (startIndex == endIndex - 1 && array[startIndex] < array[endIndex]) return;
+		//if (startIndex == endIndex) return;
 		
+		int temp;
+		int i = startIndex;
+		int j = endIndex;
+		int pivot = array[startIndex];
 		
+		//System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
+		//System.out.println(i + ", " + j);
 		
-		return System.nanoTime() - startTime;
+		while (i < j) {
+			
+			while (array[i] < pivot) i++;
+			while (array[j] >= pivot && j > i) j--;
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		
+		//System.out.println(Arrays.toString(Arrays.copyOfRange(array, startIndex, endIndex + 1)));
+		//System.out.println(i + ", " + j);
+		//System.out.println('\n');
+		
+		if (startIndex < j) {
+			quickSort(array, startIndex, j - 1);
+			quickSort(array, j, endIndex);
+		}
 	}
 	
 	public static long countingSort(int[] array) {
@@ -123,12 +147,9 @@ public class j {
 		return System.nanoTime() - startTime;
 	}
 	
-	public static void main(String[] args) {
-		
-		int[] sampleSize = {100, 250, 500, 750, 1000, 1250, 2500, 3750, 5000, 6250, 7500, 8750, 10000};
-		int numRuns = 10;
-		long startTime;
-		long totalTime;
+	public static void main(String[] args) {		
+		int[] sampleSize = {10};//, 250, 500, 750, 1000, 1250, 2500, 3750, 5000, 6250, 7500, 8750, 10000};
+		int numRuns = 100;
 		int[] array;
 		
 		String sizeOutput = "Size\t";
@@ -150,11 +171,17 @@ public class j {
 			
 			for (int i = 0; i < numRuns; i++) {
 				array = randomArray(n);
-				bubbleSortTime += bubbleSort(Arrays.copyOf(array, array.length));
-				selectionSortTime += selectionSort(Arrays.copyOf(array, array.length));
-				insertionSortTime += insertionSort(Arrays.copyOf(array, array.length));
-				quickSortTime += quickSort(Arrays.copyOf(array, array.length));
-				countingSortTime += countingSort(Arrays.copyOf(array, array.length));
+				//array = new int[] {4, 1, 7, 10, 9, 3, 2, 6, 8, 5};
+				//bubbleSortTime += bubbleSort(Arrays.copyOf(array, array.length));
+				//selectionSortTime += selectionSort(Arrays.copyOf(array, array.length));
+				//insertionSortTime += insertionSort(Arrays.copyOf(array, array.length));
+				
+				//countingSortTime += countingSort(Arrays.copyOf(array, array.length));
+				
+				long startTime = System.nanoTime();
+				quickSort(array, 0, array.length - 1);
+				System.out.println("Sorted " + Arrays.toString(array));
+				quickSortTime += System.nanoTime() - startTime;
 			}
 			bubbleSortOutput += String.format("%.3f\t", bubbleSortTime / (1000000.0d * numRuns));
 			selectionSortOutput += String.format("%.3f\t", selectionSortTime / (1000000.0d * numRuns));
